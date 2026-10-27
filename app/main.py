@@ -4,7 +4,7 @@ from fastapi import FastAPI, Header, HTTPException, Request, status
 from aiogram import Bot, Dispatcher, types
 from app.core.config import settings
 from app.core.database import Base, engine
-from app.bot.handlers import base, captcha
+from app.bot.handlers import base, captcha, moderation
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,6 +14,7 @@ dp = Dispatcher()
 
 dp.include_router(base.router)
 dp.include_router(captcha.router)
+dp.include_router(moderation.router)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
