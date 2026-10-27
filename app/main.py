@@ -4,7 +4,12 @@ from fastapi import FastAPI, Header, HTTPException, Request, status
 from aiogram import Bot, Dispatcher, types
 from app.core.config import settings
 from app.core.database import Base, engine
-from app.bot.handlers import base, captcha, moderation
+
+from app.models.group import GroupSetting
+from app.models.audit_log import AuditLog
+from app.models.warning import UserWarning
+
+from app.bot.handlers import base, captcha, admin_cmd, moderation
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,6 +19,7 @@ dp = Dispatcher()
 
 dp.include_router(base.router)
 dp.include_router(captcha.router)
+dp.include_router(admin_cmd.router)
 dp.include_router(moderation.router)
 
 @asynccontextmanager
